@@ -248,7 +248,8 @@ def build_message(ctx):
     parts = [f"<b>[에너지 시장 일일 브리핑]</b> {md(d)}({WEEKDAY[d.weekday()]}) {ctx.cfg['send_time']}", ""]
     parts += safe(ctx, "계통한계가격(육지)", sec_smp)
     parts += safe(ctx, "발전소 가동현황 (TMS 기준)", sec_tms)
-    parts += safe(ctx, "시장지표", sec_indicators)
+    if ctx.cfg.get("show_indicators", False):  # 시장지표는 현재 미표시(config.json 의 show_indicators 로 복원)
+        parts += safe(ctx, "시장지표", sec_indicators)
     parts += safe(ctx, f"주요뉴스 {ctx.cfg['news_count']}건", sec_news)
     links = " · ".join(f'<a href="{html.escape(x["url"], quote=True)}">{esc(x["label"])}</a>' for x in ctx.cfg["links"])
     parts += ["<b>■ 바로가기</b>", f" {links}", "", "※ SMP 최고·최저 시각은 거래시간(1~24시) 기준"]
