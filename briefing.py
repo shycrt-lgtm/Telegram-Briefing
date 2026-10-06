@@ -28,6 +28,7 @@ from zoneinfo import ZoneInfo
 KST = ZoneInfo("Asia/Seoul")
 HERE = os.path.dirname(os.path.abspath(__file__))
 WEEKDAY = "월화수목금토일"
+UNIT_FIX = {"$/bbl": "USD/bbl"}
 
 
 # ------------------------------------------------------------------ 공통
@@ -191,12 +192,14 @@ def sec_indicators(ctx):
         won = it.get("unit", "").startswith("원")
         nd = 0 if won else 2
         val = f"{it['value']:,.{nd}f}"
+        # 텔레그램이 '$/bbl' 의 '/bbl' 을 봇 명령어(링크)로 인식하므로 단위를 바꿔 표시
+        unit = UNIT_FIX.get(it["unit"], it["unit"])
         meta = []
         if it.get("prev_value") is not None:
             meta.append(f"직전 대비 {arrow(it['value'] - it['prev_value'], nd)}")
         if it.get("date"):
             meta.append(md_from_str(it["date"]))
-        out.append(f" - {it['name']} {val} {it['unit']}" + (f" ({', '.join(meta)})" if meta else ""))
+        out.append(f" - {it['name']} {val} {unit}" + (f" ({', '.join(meta)})" if meta else ""))
     return out
 
 
