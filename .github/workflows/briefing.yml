@@ -1,0 +1,44 @@
+name: Telegram Briefing
+
+on:
+  schedule:
+    # 매일 07:50 KST 에 시작해 스크립트가 08:30 KST 까지 대기한 뒤 발송한다.
+    # (cron 은 UTC 기준: 22:50 UTC = 다음날 07:50 KST. 지연이 생겨도 08:30 이후면 즉시 발송)
+    # 주말·공휴일 제외가 필요하면 config.json 의 skip_off_days 를 true 로 바꾼다.
+    - cron: '50 22 * * *'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: '발송하지 않고 문구만 확인'
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: briefing
+  cancel-in-progress: false
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    timeout-minutes: 100
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Send briefing
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          ARGS=""
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            ARGS="--no-wait"
+            [ "${{ inputs.dry_run }}" = "true" ] && ARGS="$ARGS --dry-run"
+          fi
+          python briefing.py $ARGS
