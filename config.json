@@ -1,0 +1,32 @@
+{
+  "send_time": "08:30",
+  "skip_off_days": false,
+  "sources": {
+    "indicators": "https://raw.githubusercontent.com/shycrt-lgtm/Energy-Index/main/indicators.json",
+    "news": "https://raw.githubusercontent.com/shycrt-lgtm/Energy-Index/main/news.json",
+    "smp": "https://raw.githubusercontent.com/shycrt-lgtm/KPX-Daily-Report/main/smp_live.json",
+    "holidays": "https://raw.githubusercontent.com/shycrt-lgtm/KPX-Daily-Report/main/data_recent.json",
+    "tms_latest": "https://raw.githubusercontent.com/shycrt-lgtm/TMS/data/latest.json",
+    "tms_report": "https://raw.githubusercontent.com/shycrt-lgtm/TMS/data/reports/report_{date}.csv"
+  },
+  "local_paths": {
+    "indicators": "energy-index/indicators.json",
+    "news": "energy-index/news.json",
+    "smp": "kpx-daily-report/smp_live.json",
+    "holidays": "kpx-daily-report/data_recent.json",
+    "tms_latest": "tms-data/latest.json",
+    "tms_report": "tms-data/reports/report_{date}.csv"
+  },
+  "facilities": [
+    {"label": "에스파워", "match": "㈜에스파워"},
+    {"label": "광명사업단", "match": "광명사업단"}
+  ],
+  "indicator_items": ["dubai", "wti", "brent", "jkm", "kau", "rec"],
+  "news_count": 5,
+  "links": [
+    {"label": "Energy-Index", "url": "https://shycrt-lgtm.github.io/Energy-Index/"},
+    {"label": "KPX-Daily-Report", "url": "https://shycrt-lgtm.github.io/KPX-Daily-Report/"},
+    {"label": "TMS", "url": "https://shycrt-lgtm.github.io/TMS/"}
+  ],
+  "extra_holidays": []
+}
