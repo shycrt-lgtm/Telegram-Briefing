@@ -16,6 +16,7 @@ import html
 import io
 import json
 import os
+import re
 import sys
 import time
 import traceback
@@ -257,34 +258,67 @@ def build_message(ctx):
     return text[:4000]
 
 
+def _post(token, params):
+    """sendMessage 1회 호출. (성공여부, 텔레그램 응답 dict 또는 오류 설명) 반환."""
+    body = urllib.parse.urlencode(params).encode()
+    req = urllib.request.Request(f"https://api.telegram.org/bot{token}/sendMessage", data=body)
+    try:
+        with urllib.request.urlopen(req, timeout=20) as r:
+            return True, json.loads(r.read())
+    except urllib.error.HTTPError as e:
+        try:
+            info = json.loads(e.read())
+        except Exception:
+            info = {}
+        info["_code"] = e.code
+        return False, info
+    except Exception as e:
+        return False, {"_code": 0, "description": type(e).__name__}
+
+
+def send_one(token, chat, text):
+    """한 대화방으로 발송. 성공 시 None, 실패 시 사유 문자열 반환."""
+    params = {"chat_id": chat, "text": text, "parse_mode": "HTML", "disable_web_page_preview": "true"}
+    last = ""
+    for i in range(4):
+        ok, res = _post(token, params)
+        if ok:
+            return None
+        code, desc = res.get("_code"), res.get("description", "")
+        last = f"HTTP {code} {desc}".strip()
+        migrated = (res.get("parameters") or {}).get("migrate_to_chat_id")
+        if migrated:  # 그룹이 슈퍼그룹으로 전환되어 chat id 가 바뀐 경우: 새 id 로 재시도
+            print(f"::warning::대화방 chat id 가 {migrated} 로 변경됨 - Secrets 의 TELEGRAM_CHAT_ID 를 수정하십시오")
+            params["chat_id"] = str(migrated)
+            continue
+        if code == 400 and "parse entities" in desc:  # 서식 오류: 태그 없는 일반 글로 재시도
+            params.pop("parse_mode", None)
+            params["text"] = html.unescape(re.sub(r"<[^>]+>", "", text))
+            continue
+        if code == 429:
+            time.sleep(int((res.get("parameters") or {}).get("retry_after", 5)) + 1)
+            continue
+        if code in (400, 401, 403, 404):  # 토큰·chat id 문제는 재시도해도 소용없음
+            break
+        time.sleep(3 * (i + 1))
+    return last
+
+
 def send_telegram(text):
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
     chats = [c.strip() for c in os.environ.get("TELEGRAM_CHAT_ID", "").split(",") if c.strip()]
     if not token or not chats:
         raise SystemExit("TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID 환경변수가 필요합니다.")
-    for chat in chats:
-        body = urllib.parse.urlencode({
-            "chat_id": chat, "text": text, "parse_mode": "HTML", "disable_web_page_preview": "true",
-        }).encode()
-        sent, last = False, None
-        for i in range(3):
-            try:
-                req = urllib.request.Request(f"https://api.telegram.org/bot{token}/sendMessage", data=body)
-                with urllib.request.urlopen(req, timeout=20) as r:
-                    sent = bool(json.loads(r.read()).get("ok"))
-                if sent:
-                    break
-                last = "응답 ok=false"
-            except urllib.error.HTTPError as e:
-                last = f"HTTP {e.code}"
-                if e.code in (400, 401, 403, 404):  # 토큰·chat_id 오류 등은 재시도해도 소용없음
-                    break
-            except Exception as e:
-                last = type(e).__name__
-            time.sleep(3 * (i + 1))
-        if not sent:
-            raise SystemExit(f"텔레그램 발송 실패: {last}")
-        print(f"발송 완료 (chat {chat[:3]}***)")
+    failed = []
+    for chat in chats:  # 한 곳이 실패해도 나머지 대화방에는 계속 발송
+        err = send_one(token, chat, text)
+        if err is None:
+            print(f"발송 완료 (chat {chat[:4]}***)", flush=True)
+        else:
+            print(f"::error::발송 실패 (chat {chat[:4]}***): {err}", flush=True)
+            failed.append(f"{chat[:4]}***: {err}")
+    if failed:
+        raise SystemExit("텔레그램 발송 실패 - " + " / ".join(failed))
 
 
 def main():
