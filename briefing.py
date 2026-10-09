@@ -205,10 +205,28 @@ def sec_indicators(ctx):
 
 
 # ------------------------------------------------------------------ 섹션: 뉴스
+# 사진 설명문·포토뉴스 등 본문 없이 사진만 있는 기사 판별(제목 기준)
+PHOTO_RE = re.compile(
+    r"재판매|DB\s*금지|무단\s*전재"                                                   # 사진 캡션에 붙는 저작권 문구
+    r"|\[[^\]]*제공[^\]]*\]|사진\s*제공|사진\s*=|사진\s*/"                              # 사진 출처 표기
+    r"|\[(?:포토|사진|PHOTO|화보|영상|동영상|카드뉴스|이 시각|오늘의 사진)[^\]]*\]"          # 말머리
+    r"|\((?:사진|포토)[^)]*\)|포토\s*뉴스|포토\s*에세이"
+    r"|기념\s*촬영|기념사진"
+)
+
+
+def is_photo_news(title, extra_words=()):
+    return bool(PHOTO_RE.search(title)) or any(w and w in title for w in extra_words)
+
+
 def sec_news(ctx):
     data = fetch_json("news", ctx.cfg, ctx.local)
     out = []
-    for n, it in enumerate(data.get("items", [])[: ctx.cfg["news_count"]], 1):
+    extra = ctx.cfg.get("news_exclude_words", [])
+    items = [it for it in data.get("items", []) if not is_photo_news(it.get("title", ""), extra)]
+    if len(items) < len(data.get("items", [])):
+        print(f"사진·포토 기사 {len(data.get('items', [])) - len(items)}건 제외")
+    for n, it in enumerate(items[: getattr(ctx, "news_n", None) or ctx.cfg["news_count"]], 1):
         link = html.escape(it["link"], quote=True)
         out.append(f' {n}. <a href="{link}">{esc(it["title"])}</a> ({esc(it["source"])})')
     if not out:
@@ -244,18 +262,35 @@ def safe(ctx, title, fn):
     return [f"<b>■ {title}</b>"] + lines + [""]
 
 
-def build_message(ctx):
+def _compose(ctx):
     d = ctx.today
+    n_news = getattr(ctx, "news_n", None) or ctx.cfg["news_count"]
     parts = [f"<b>[에너지 시장 일일 브리핑]</b> {md(d)}({WEEKDAY[d.weekday()]}) {ctx.cfg['send_time']}", ""]
     parts += safe(ctx, "계통한계가격(육지)", sec_smp)
     parts += safe(ctx, "발전소 가동현황 (TMS 기준)", sec_tms)
     if ctx.cfg.get("show_indicators", False):  # 시장지표는 현재 미표시(config.json 의 show_indicators 로 복원)
         parts += safe(ctx, "시장지표", sec_indicators)
-    parts += safe(ctx, f"주요뉴스 {ctx.cfg['news_count']}건", sec_news)
+    parts += safe(ctx, f"주요뉴스 {n_news}건", sec_news)
     links = " · ".join(f'<a href="{html.escape(x["url"], quote=True)}">{esc(x["label"])}</a>' for x in ctx.cfg["links"])
     parts += ["<b>■ 바로가기</b>", f" {links}", "", "※ SMP 최고·최저 시각은 거래시간(1~24시) 기준"]
-    text = "\n".join(parts)
-    return text[:4000]
+    return "\n".join(parts)
+
+
+def visible_len(text):
+    """텔레그램 글자 수 한도(4096)는 태그·링크 주소를 뺀 화면 글자 기준."""
+    return len(html.unescape(re.sub(r"<[^>]+>", "", text)))
+
+
+def build_message(ctx):
+    # 태그 중간을 자르면 서식 오류로 링크가 모두 사라지므로, 원문을 자르지 않고 뉴스 건수를 줄여 맞춘다.
+    for n in range(ctx.cfg["news_count"], 0, -1):
+        ctx.news_n = n
+        text = _compose(ctx)
+        if visible_len(text) <= 4000:
+            break
+    if n < ctx.cfg["news_count"]:
+        ctx.warn(f"글자 수 초과로 뉴스를 {n}건으로 줄임")
+    return text
 
 
 def _post(token, params):
@@ -279,8 +314,8 @@ def _post(token, params):
 def send_one(token, chat, text):
     """한 대화방으로 발송. 성공 시 None, 실패 시 사유 문자열 반환."""
     params = {"chat_id": chat, "text": text, "parse_mode": "HTML", "disable_web_page_preview": "true"}
-    last = ""
-    for i in range(4):
+    last, stage = "", 0
+    for i in range(6):
         ok, res = _post(token, params)
         if ok:
             return None
@@ -291,10 +326,20 @@ def send_one(token, chat, text):
             print(f"::warning::대화방 chat id 가 {migrated} 로 변경됨 - Secrets 의 TELEGRAM_CHAT_ID 를 수정하십시오")
             params["chat_id"] = str(migrated)
             continue
-        if code == 400 and "parse entities" in desc:  # 서식 오류: 태그 없는 일반 글로 재시도
-            params.pop("parse_mode", None)
-            params["text"] = html.unescape(re.sub(r"<[^>]+>", "", text))
-            continue
+        if code == 400 and ("parse entities" in desc or "URL" in desc or "url" in desc):
+            if stage == 0:  # 1단계: 지나치게 긴 링크(1500자 초과)만 빼고 나머지 링크는 유지
+                stage = 1
+                shorter = re.sub(r'<a href="([^"]{1500,})">(.*?)</a>', r"\2", text)
+                if shorter != text:
+                    print("::warning::텔레그램이 서식 오류를 반환해 지나치게 긴 링크를 뺀 뒤 재시도")
+                    params["text"] = shorter
+                    continue
+            if stage <= 1:  # 2단계: 태그 없는 일반 글로 재시도(링크 없음)
+                stage = 2
+                print("::warning::서식 오류로 서식 없는 일반 글로 재시도(링크 없음)")
+                params.pop("parse_mode", None)
+                params["text"] = html.unescape(re.sub(r"<[^>]+>", "", text))
+                continue
         if code == 429:
             time.sleep(int((res.get("parameters") or {}).get("retry_after", 5)) + 1)
             continue
