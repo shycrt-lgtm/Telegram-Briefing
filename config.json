@@ -18,17 +18,43 @@
     "tms_report": "tms-data/reports/report_{date}.csv"
   },
   "facilities": [
-    {"label": "에스파워", "match": "㈜에스파워"},
-    {"label": "광명사업단", "match": "광명사업단"},
-    {"label": "안산도시개발", "match": "안산도시개발㈜"}
+    {
+      "label": "에스파워",
+      "match": "㈜에스파워"
+    },
+    {
+      "label": "광명사업단",
+      "match": "광명사업단"
+    },
+    {
+      "label": "안산도시개발",
+      "match": "안산도시개발㈜"
+    }
   ],
   "show_indicators": false,
-  "indicator_items": ["dubai", "wti", "brent", "jkm", "kau", "rec"],
+  "indicator_items": [
+    "dubai",
+    "wti",
+    "brent",
+    "jkm",
+    "kau",
+    "rec"
+  ],
   "news_count": 5,
   "links": [
-    {"label": "Energy-Index", "url": "https://shycrt-lgtm.github.io/Energy-Index/"},
-    {"label": "KPX-Daily-Report", "url": "https://shycrt-lgtm.github.io/KPX-Daily-Report/"},
-    {"label": "TMS", "url": "https://shycrt-lgtm.github.io/TMS/"}
+    {
+      "label": "Energy-Index",
+      "url": "https://shycrt-lgtm.github.io/Energy-Index/"
+    },
+    {
+      "label": "KPX-Daily-Report",
+      "url": "https://shycrt-lgtm.github.io/KPX-Daily-Report/"
+    },
+    {
+      "label": "TMS",
+      "url": "https://shycrt-lgtm.github.io/TMS/"
+    }
   ],
-  "extra_holidays": []
+  "extra_holidays": [],
+  "news_exclude_words": []
 }
