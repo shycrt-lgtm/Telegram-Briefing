@@ -12,6 +12,7 @@
 """
 import argparse
 import csv
+import difflib
 import html
 import io
 import json
@@ -219,14 +220,89 @@ def is_photo_news(title, extra_words=()):
     return bool(PHOTO_RE.search(title)) or any(w and w in title for w in extra_words)
 
 
+SENT_PATH = os.path.join(HERE, "sent_news.json")
+
+CARBON_RE = re.compile(r"배출권|탄소\s*크레딧|탄소\s*배출|탄소\s*시장|\bETS\b|\bEUA\b|CTWO|탄소\s*신탁|탄소\s*ETF")
+OVERSEAS_RE = re.compile(
+    r"해외|유럽|\bEU\b|미국|중국|베트남|일본|영국|인도|호주|캐나다|브라질|인도네시아|글로벌|국제"
+    r"|달러|유로|위안|엔화|\$|€|\bUSD\b|\bEUR\b|신탁|\bETF\b|\bCTWO\b")
+
+
+def is_overseas_carbon(title, extra_words=()):
+    """해외 배출권(가격·시장) 기사 판별 - 순위만 뒤로 미룬다(제외 아님)."""
+    if any(w and w in title for w in extra_words):
+        return True
+    return bool(CARBON_RE.search(title)) and bool(OVERSEAS_RE.search(title))
+
+
+def _norm_title(t):
+    return re.sub(r"[^0-9A-Za-z가-힣]", "", t or "").lower()
+
+
+def _norm_link(u):
+    return re.sub(r"[?#].*$", "", (u or "").strip()).rstrip("/").lower()
+
+
+def load_sent():
+    try:
+        with open(SENT_PATH, encoding="utf-8") as f:
+            return json.load(f).get("sent", [])
+    except Exception:
+        return []
+
+
+def is_sent_before(it, sent):
+    l, t = _norm_link(it.get("link")), _norm_title(it.get("title"))
+    for s_ in sent:
+        if l and l == _norm_link(s_.get("link")):
+            return True
+        st = _norm_title(s_.get("title"))
+        # 제목이 잘려 저장된 경우(앞부분 일치)도 같은 기사로 본다
+        if t and st and (t == st or (len(st) >= 12 and t.startswith(st))
+                         or difflib.SequenceMatcher(None, t, st).ratio() >= 0.8):
+            return True
+    return False
+
+
+def save_sent(ctx):
+    """실제 발송 성공 후 오늘 보낸 기사를 기록(최근 N일만 유지)."""
+    keep_days = ctx.cfg.get("news_dedupe_days", 7)
+    today = ctx.today.isoformat()
+    cut = (ctx.today - timedelta(days=keep_days)).isoformat()
+    sent = [x for x in load_sent() if x.get("date", "") >= cut and x.get("date") != today]
+    for it in getattr(ctx, "shown_news", []):
+        sent.append({"date": today, "link": it["link"], "title": it["title"], "source": it.get("source", "")})
+    with open(SENT_PATH, "w", encoding="utf-8") as f:
+        json.dump({"sent": sent}, f, ensure_ascii=False, indent=1)
+    print(f"발송 기사 기록 {len(sent)}건 저장")
+
+
 def sec_news(ctx):
     data = fetch_json("news", ctx.cfg, ctx.local)
     out = []
     extra = ctx.cfg.get("news_exclude_words", [])
-    items = [it for it in data.get("items", []) if not is_photo_news(it.get("title", ""), extra)]
-    if len(items) < len(data.get("items", [])):
-        print(f"사진·포토 기사 {len(data.get('items', [])) - len(items)}건 제외")
-    for n, it in enumerate(items[: getattr(ctx, "news_n", None) or ctx.cfg["news_count"]], 1):
+    all_items = data.get("items", [])
+    items = [it for it in all_items if not is_photo_news(it.get("title", ""), extra)]
+    if len(items) < len(all_items):
+        print(f"사진·포토 기사 {len(all_items) - len(items)}건 제외")
+    # 최근 N일 안에 이미 보낸 기사 제외(오늘 날짜 기록은 제외 대상 아님 - 재실행 시 같은 결과 유지)
+    days = ctx.cfg.get("news_dedupe_days", 7)
+    cut = (ctx.today - timedelta(days=days)).isoformat()
+    sent = [x for x in load_sent() if cut <= x.get("date", "") < ctx.today.isoformat()]
+    fresh = [it for it in items if not is_sent_before(it, sent)]
+    if len(items) - len(fresh):
+        print(f"이미 보낸 기사 {len(items) - len(fresh)}건 제외")
+    # 새 기사가 부족하면 이미 보낸 기사로 채우지 않고 있는 만큼만 표시하되, 0건이면 기존 기사로 대체
+    if not fresh:
+        fresh = items
+        ctx.warn("새 뉴스가 없어 이전 기사를 다시 표시")
+    # 해외 배출권 기사는 후순위(순서는 유지한 채 뒤로)
+    dem = ctx.cfg.get("news_demote_words", [])
+    fresh = [it for it in fresh if not is_overseas_carbon(it["title"], dem)] + \
+            [it for it in fresh if is_overseas_carbon(it["title"], dem)]
+    shown = fresh[: getattr(ctx, "news_n", None) or ctx.cfg["news_count"]]
+    ctx.shown_news = shown
+    for n, it in enumerate(shown, 1):
         link = html.escape(it["link"], quote=True)
         out.append(f' {n}. <a href="{link}">{esc(it["title"])}</a> ({esc(it["source"])})')
     if not out:
@@ -407,6 +483,10 @@ def main():
         print("(dry-run: 발송하지 않음)")
         return
     send_telegram(text)
+    try:
+        save_sent(ctx)
+    except Exception as e:
+        print(f"::warning::발송 기사 기록 실패: {e}")
 
 
 if __name__ == "__main__":

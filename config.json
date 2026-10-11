@@ -56,5 +56,7 @@
     }
   ],
   "extra_holidays": [],
-  "news_exclude_words": []
+  "news_exclude_words": [],
+  "news_dedupe_days": 7,
+  "news_demote_words": []
 }
