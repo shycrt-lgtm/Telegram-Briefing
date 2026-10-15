@@ -348,7 +348,7 @@ def _compose(ctx):
         parts += safe(ctx, "시장지표", sec_indicators)
     parts += safe(ctx, f"주요뉴스 {n_news}건", sec_news)
     links = " · ".join(f'<a href="{html.escape(x["url"], quote=True)}">{esc(x["label"])}</a>' for x in ctx.cfg["links"])
-    parts += ["<b>■ 바로가기</b>", f" {links}", "", "※ SMP 최고·최저 시각은 거래시간(1~24시) 기준"]
+    parts += ["<b>■ 바로가기</b>", f" {links}"]
     return "\n".join(parts)
 
 
