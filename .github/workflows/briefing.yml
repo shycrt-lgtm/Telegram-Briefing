@@ -6,6 +6,11 @@ on:
     # (cron 은 UTC 기준: 22:50 UTC = 다음날 07:50 KST. 지연이 생겨도 08:30 이후면 즉시 발송)
     # 주말·공휴일 제외가 필요하면 config.json 의 skip_off_days 를 true 로 바꾼다.
     - cron: '50 22 * * *'
+    # 보강 예약: GitHub 예약 실행은 늦게 시작되거나 빠지는 날이 있다(예: 2026-10-26 미실행).
+    # 앞 실행이 이미 발송했으면 briefing.py 가 오늘 발송 기록(last_sent)을 보고 건너뛴다.
+    - cron: '20 23 * * *'   # 08:20 KST
+    - cron: '55 23 * * *'   # 08:55 KST
+    - cron: '40 0 * * *'    # 09:40 KST
   workflow_dispatch:
     inputs:
       dry_run:

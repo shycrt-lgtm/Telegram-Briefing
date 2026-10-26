@@ -273,7 +273,7 @@ def save_sent(ctx):
     for it in getattr(ctx, "shown_news", []):
         sent.append({"date": today, "link": it["link"], "title": it["title"], "source": it.get("source", "")})
     with open(SENT_PATH, "w", encoding="utf-8") as f:
-        json.dump({"sent": sent}, f, ensure_ascii=False, indent=1)
+        json.dump({"last_sent": today, "sent": sent}, f, ensure_ascii=False, indent=1)
     print(f"발송 기사 기록 {len(sent)}건 저장")
 
 
@@ -461,6 +461,18 @@ def main():
         reason = is_off_day(now.date(), cfg, args.local)
         if reason:
             print(f"{md(now.date())} {reason} - 발송하지 않음")
+            return
+
+    # 예약 실행은 하루 한 번만 발송한다. GitHub 예약 실행이 늦게 시작되거나 보강 예약이 여러 번 돌 때 중복 발송을 막는다.
+    # 수동 실행(--no-wait)은 이 검사를 하지 않으므로 필요하면 언제든 다시 보낼 수 있다.
+    if not args.no_wait and not args.dry_run and not args.now:
+        try:
+            with open(SENT_PATH, encoding="utf-8") as f:
+                last = json.load(f).get("last_sent", "")
+        except Exception:
+            last = ""
+        if last == now.date().isoformat():
+            print(f"오늘({last}) 이미 발송함 - 예약 실행 건너뜀")
             return
 
     # 발송 시각까지 대기 (대기 후 최신 데이터를 읽는다)
