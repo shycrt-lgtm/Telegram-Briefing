@@ -1,36 +1,6 @@
 {
- "last_sent": "2026-11-07",
+ "last_sent": "2026-11-08",
  "sent": [
-  {
-   "date": "2026-10-31",
-   "link": "https://news.google.com/rss/articles/CBMiRkFVX3lxTE9LNG5mM1RYMkhKT2F5T1dZem54SEwtR20tTzFIX0dGSXNUMzJSU0FmaXcwOHdzek5ONnBkUHFWOG5KQ2djRFE?oc=5",
-   "title": "목재재활용협회 “재생에너지 제도 개편 때 폐목재 산업과 환경영향도 살펴봐야”",
-   "source": "매일경제"
-  },
-  {
-   "date": "2026-10-31",
-   "link": "https://news.google.com/rss/articles/CBMiVEFVX3lxTE1DZjljaGhobTF5akxvU3RHZnpBS1BrekY3X3ltbHdyRTZQWWdsS21QQXE0c0Zyd19SZE5KQUVtOGQzS1MzWTlGdEVYVmRabF9wMW1HYg?oc=5",
-   "title": "7명 사망 울산화력 붕괴 사고... 타워 기둥 과도하게 절단해 발생",
-   "source": "매일경제"
-  },
-  {
-   "date": "2026-10-31",
-   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFBvQ0FSVl96Qy1RcFhfa21udmlRSnRiRl8wRGZTbmFjbDRPRVVrLXgwbkM0OHpjTV9NWFlwTzl3ZFlpQUpOZXAyZzBmc3lIcUkxeTVJLS1PbXFBLVZoSno2TEJCckJjWWhKVVNQV2dn?oc=5",
-   "title": "가스공사-가스기술공사, 모자회사 정책협의회",
-   "source": "투데이에너지"
-  },
-  {
-   "date": "2026-10-31",
-   "link": "https://news.google.com/rss/articles/CBMiWkFVX3lxTE5GaUw5Vl9FWnpZNVZqdjhiN2Q1RzBqQ2s4eXBzcGhic2R4NUs2ckNaZ1pVeGtab2ZPVndPa2dtOXJDMW5hZWhpTzdLZE9rRXVmS2VtS0g4Z29udw?oc=5",
-   "title": "[단독] 정부, 알래스카 LNG 프로젝트 상업적 합리성 검토 착수",
-   "source": "한국경제"
-  },
-  {
-   "date": "2026-10-31",
-   "link": "https://news.google.com/rss/articles/CBMiZEFVX3lxTE5hd1pweWQ4SVA4b0hjWGtxNDhEWmZrRGVhRFduWmJ3Vy1JNTVCMHREN3ljMFg2b0pNeVJXNVQ1d282OHUxbDhhRFRYU0FQSUVhbDVrX1FlMEJvTUlydWRkVzlrQ0I?oc=5",
-   "title": "7명 목숨 앗아간 울산화력발전소 붕괴 참사…비극은 잘못된 계산에서 시작됐다",
-   "source": "지이코노미"
-  },
   {
    "date": "2026-11-01",
    "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTFAwRE5MYkFuVk9SX0RZMlIzSEJRcDYyNUFnZUdhR3dyRmJvdzZuNkR0UkN4NnBpZ3Yxc0hWQ2stSE1xaTctNi1MWVppQkFqdUVfaGtWV19iWFFWbTJKSUtGYjNHRzJlaDBwVDFaX1BR?oc=5",
@@ -240,6 +210,36 @@
    "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE90YXZmenlIRE82T1I4OUt3aWZ0ZGhsXy1fWU5wTXEtaU1DbFhMU3dWS3NHaDFBYkJLVHRnd2F6djVUN3N3YU43M2wyd3J4NjJHd0JrUHdNb1ZLY01hRXJPb1FHbEs5TUxoUldwRdIBcEFVX3lxTFBRdWM2TGMweFVsdzlIYkloN0hQY3BrZ3VrLUM5dXJFYjBoTE1xZ2NscGdObXI3dVUwMW10ZXdXNFBlaldmNzMxOWFsWlVXNi1tSmRpMjN3dHpmOXQ5WjRHNlYxV1NIY0pzbUVTeENsbTg?oc=5",
    "title": "한국, 원전 단순 규제 대상 취급…‘REC 매입 비용·감발 손실 전가’",
    "source": "에너지플랫폼뉴스"
+  },
+  {
+   "date": "2026-11-08",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008835138",
+   "title": "서울 마곡동 온수관 파열로 8,965세대 난방 중단…12시간 만에 복구",
+   "source": "SBS"
+  },
+  {
+   "date": "2026-11-08",
+   "link": "https://news.sbs.co.kr/news/endPage.do?news_id=N1008835192",
+   "title": "서울 마곡동 온수관 파열로 행인 1명 중태…2명 화상",
+   "source": "SBS"
+  },
+  {
+   "date": "2026-11-08",
+   "link": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQU0NvcWpmOFM2NFZ5dDNIVmQzUXczRkVBUHhqbE5rMEhMMm92V01iLUtPWmMxOTBRV2dZXzVoQ0V2UWV4NDZWVmtkcGdCVEh4azZqNkN2ZXNxZ2RkQlZLM2xudlh0MG5EbDcySXdLS3ZHQl9HVW5WTlRINFI0SEl3eUlCNllPbEhD?oc=5",
+   "title": "유럽 5개국, 영국의 EU 전력시장 통합 촉구…북해 에너지 협력 가속화",
+   "source": "글로벌이코노믹"
+  },
+  {
+   "date": "2026-11-08",
+   "link": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9WWU9sR08xSnljZlF5UnhFanE2LWY3eDZqUFdkMWZfUGVVR0ZycllTQzRQN0lJZ1hmZGdTZ1ZrYzVFQTZPaTdoRmwwdXNBcDNzd1d2MHFvOUE1Zm_SAWBBVV95cUxOTU9XWmotVVliMERSanJRNU16ZkJyblJOekpFODhtNHdMVTNhV2lwOFZRWWdpamVJbnhxVjdpUHZGU2wxY1FRU0l4ajF1SzdORHdoTHRHbGg0ZmZHLXpmeEo?oc=5",
+   "title": "[美선거 산업여파] ③ 친환경 정책 돌아오나…K배터리·태양광 훈풍 기대",
+   "source": "연합뉴스"
+  },
+  {
+   "date": "2026-11-08",
+   "link": "https://news.google.com/rss/articles/CBMia0FVX3lxTE9qbmdNWkc2aFBtTDc3cXpOWkgxZ0U3cWZCWUtQejZwUjBTRFVSaWZGaHJIRFhDNXo4ZDBlRC1DdE4tdzZHbmQ4TmNfU2VHY0FzMWJWS0s2dVY4aHJYUlA5Q2FNVDVrcG1JcFJN?oc=5",
+   "title": "'가격 눌러놓기'의 역풍… 원전 경쟁력 외면한 에너지 정책이 전기요금 참사 불렀다",
+   "source": "독립신문"
   }
  ]
 }
