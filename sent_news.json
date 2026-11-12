@@ -1,36 +1,6 @@
 {
- "last_sent": "2026-11-12",
+ "last_sent": "2026-11-13",
  "sent": [
-  {
-   "date": "2026-11-05",
-   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE0yVldpc3plbGlnNGxULVJ3Y2p1Q25yZGlURmJLQmthRlQzQ2pjV1ZXd1FxVmlqMTVUOTNEV2tCVGo0MjZBQ0FOX1UtOGFMN0w1Tm9HZ0N5RDAxdjVJX3NmRFBjNXBaVklDUjduWtIBcEFVX3lxTE9jMGxwdi1yNzBwUXpOZ0FJVWVGZnB0VDAwb3RNRmY3S0VpbEdKdU95cDRYQmN6ZmROU1ZWN2lLd1dBVjZ2M2J1SlpsVzNGMUxRTmRoVFdOcHhIWjVEUEhJREZ3WGVLMnRQdzEtc0F5eTU?oc=5",
-   "title": "기후부, OECD 화학·생명공학위원회 의장단으로 활동",
-   "source": "전기신문"
-  },
-  {
-   "date": "2026-11-05",
-   "link": "https://news.google.com/rss/articles/CBMic0FVX3lxTFBZajlEZTYtUkFFYjd6NDBLQkhtMTc2dXBqbXJvYkQ2Vlo1VGl4MmhrT05nS2pPQUdad29JQUxKRHl1T1ZheXpHMGdJTmNlanZiNmhnaHFMVlJIMmQyVXYteE5CS3c2LXphVE9GMUI0VGpXSE3SAXdBVV95cUxQdEFPMldYWVBSMHozUW9NSW96YWpkN2k0eWplQ3JSM2lVUFdiSVd2VWdRdmlVLTNWbHVyRXU1OFMzbGN3TC1Zb0NEazRtVWVJTXJlRnBDbTlGdHJycTlFRzE4Z2c5cmNDeDhoR1BxdU5Od2g5T0Vpbw?oc=5",
-   "title": "한화오션, 방글라데시 정부와 선박수리·LNG 설비 협력 논의…현지 진출 모색",
-   "source": "핀포인트뉴스"
-  },
-  {
-   "date": "2026-11-05",
-   "link": "https://news.google.com/rss/articles/CBMidkFVX3lxTE96Vy1Tb3VSMmg3MjU2UkIweGdEeHh0Y2ljVDZMdXpWcEljR0ZDM2d2NE5LaXR4VE1uTmxIR0R2V0dZaTFRc2ViLUs2VHh2UktwOWk2emwtYTE4aDNUeHRBQTBfYmRHZ3hkV1RRcjVicFVNMy1fcmfSAXZBVV95cUxPelctU291UjJoNzI1NlJCMHhnRHh4dGNpY1Q2THV6VnBJY0dGQzNndjROS2l0eFRNbk5sSEdEdldHWWkxUXNlYi1LNlR4dlJLcDlpNnpsLWExOGgzVHh0QUEwX2JkR2d4ZFdUUXI1YnBVTTMtX3Jn?oc=5",
-   "title": "“전기요금 누가 낼 건데?” AI 청구서가 투표소에 날아왔다",
-   "source": "포춘코리아"
-  },
-  {
-   "date": "2026-11-05",
-   "link": "https://news.google.com/rss/articles/CBMib0FVX3lxTFAzeHpkUjhvOXZETmROMTc3U3Bsa1pEcHZrWWpBci04TXFiT2ZjcG5CUkpoUWowd3dRcHFkZGhuTldtRElUazlCeVJYS0l5Z1hveXB4MzdJc0xZeWUzMzNqNUs4TE9rVkFmSUxZR1R4MA?oc=5",
-   "title": "경주시, 내년 원전 주변지역 지원 66억1400만원…전기요금·소득증대에 집중",
-   "source": "경북일보"
-  },
-  {
-   "date": "2026-11-05",
-   "link": "https://news.google.com/rss/articles/CBMickFVX3lxTE9pTk5lTUcwXzRIQlV4aUtFeDN6dzlHUEhNY3ZsdDNlQ0JGYzcxeWFFSUxhanZERWFXMzdjLWwyQ2Y1cWlBOTRoRENnMjYwY0h0bk9PMk9qb3BZanVELWl4NTRJdElsOXZQVThfbEgxazhnUdIBdkFVX3lxTE53TWtrcHNZX1pJbWpMY0lETTZmUXBRQTZBRUJobGQ0d1NOOWhLMTZZdEUyZkJSRU01SXN6ZkEzNE5jdGVfclFFUmNWTDNJVjNEV0tsNWRNQkM3RTlTemxiajlBTlhpczJpbHFYZ0lqQ09pS1JWSGc?oc=5",
-   "title": "美 민주당 상·하원 과반···韓 태양광·풍력 수혜 기대, 반도체는 규제 우려",
-   "source": "시사저널e"
-  },
   {
    "date": "2026-11-06",
    "link": "https://news.google.com/rss/articles/CBMiaEFVX3lxTE9YbXpoZlJ4TndLR1lZWHd6S0dqRFJNNWFRcEI4aE1KelFUNUZuV2xYMFAzMXVNcVowOV80UnU2QklsQXhDRTFMZk12Z3dBRHQ4aG5heHp5bjUtajR2NF8xOTAtQ1R2WWdT0gFrQVVfeXFMT0dFM2MwSW5fQnd4TUt1NW5Bc1pmcjQwcVB2ZEZ0V1RfSDlzTmNURlozOXBtMk9pTXRMcW1iODkxQ05DV3NWT2FGaUtvSVMzQTJQeHVVZHU4dWcwd0U5TjdibTVmQlZTWENzQTA?oc=5",
@@ -240,6 +210,36 @@
    "link": "https://news.google.com/rss/articles/CBMiYEFVX3lxTE1lS2VRTXdQYkJIOGdaTHNCeU1pZVN4ODZYR09LUldNY0NQOE92RG00QmgxX0paTUQyZjB3aWVhVDdtVHpmbmV4QU5JNEZGbGstSnUtQnQwZ2p6b3J2NVNrNA?oc=5",
    "title": "[시흥시 정책 브리핑] 에너지 선순환 생태계의 모범…시흥시, ‘시흥형 RE100’으로 도시 대전환 열다",
    "source": "NSP통신"
+  },
+  {
+   "date": "2026-11-13",
+   "link": "https://news.google.com/rss/articles/CBMiUkFVX3lxTE1nUjlOMXdUWXlMMGdsT1ZoZ3JWQnJhVk9uYVFYN1pNaVNNcUVvYWlBanh2aXNjeUh3XzZQVjV3RWwyUXpXUVZXcy1EUm5la2oyQVE?oc=5",
+   "title": "[단독] 정부, 탄소배출권 선물시장 개설 속도…거래·결제 규칙 짠다",
+   "source": "매일경제 마켓"
+  },
+  {
+   "date": "2026-11-13",
+   "link": "https://news.google.com/rss/articles/CBMibEFVX3lxTE9kb1BBaGI5SlV1U0ZtQ1gybE1hWHlSQTczV0hEWTNpekVSWFhtMWdZTE1WOC0xVHl5dlA4ZTRZd3BCTWR3TFl0c3pobmVUblJKenNvOFF4Q0UzZldIb2MyUUNsVUdacy1ES0tKSNIBcEFVX3lxTE8ySW9kcE8xTDhURExCeFZqV2Jwakk0ZTdQNVZwOWt5ckJNWUVDWlFDWEFwVF92Y0hXQ1NucWtHclVEMVhqWUx3WDRjRDdUUm9lQ1hYcGhKMGp0X2N4ZTNGYk53Y0FJRlJoZXlLMko0MGM?oc=5",
+   "title": "겨울도 안 왔는데 한낮 SMP 183원…전력시장 ‘살얼음판’",
+   "source": "전기신문"
+  },
+  {
+   "date": "2026-11-13",
+   "link": "https://news.google.com/rss/articles/CBMibkFVX3lxTE1fUmZOQ3NoZ19OSmtBV1BpNHV4N3ZfUXlSNjV0TG5MeFN6eWFGSExraDY4c3NZWEFXZFZSbFlraE1SYk9BYVlTQ3VHWWJRRmE0ZlpuWXAzal9DTFdETVZKYThDYjcwcEZKOHlFZ0NB?oc=5",
+   "title": "AI 전력수요 메울 LNG 70GW⋯전력 판매수익·용량요금, 사업성 가른다[대한민국 전기국가 2035④]",
+   "source": "이투데이"
+  },
+  {
+   "date": "2026-11-13",
+   "link": "https://news.google.com/rss/articles/CBMiQ0FVX3lxTE5QQU5fSjRoN2ZGREozNExnRE4tZHNMZWFHWV9Gc0pEMXZEeWVmWXJTaHQ5TXNjZG51MVZSLU5pYndFLWs?oc=5",
+   "title": "한국전력거래소, 열병합발전업계와 ‘소통 간담회’ 개최",
+   "source": "한국공공정책신문"
+  },
+  {
+   "date": "2026-11-13",
+   "link": "https://news.google.com/rss/articles/CBMikAFBVV95cUxQbVFsZmszWXRCT3pKMExsYU1DQWU5aDV5Y3hjekZwbjhSbzVlVnVSRFpiWUVaaXhPX3lLZ3h3VXJBSzhTLWxuZ2o1NFkyLXlWazZBYW5jd0pyVGRFekFGTzdVeXhyTERwZ1FtMFhHNFh3VXpGbzctcDR2Znl4TjZKdFJrSTM3OW9tM1BUbG1LOGg?oc=5",
+   "title": "Enel의 전력시장 개혁 대응, 이탈리아 배전·소매 사업 확장으로 안정성 강화",
+   "source": "Traders Union"
   }
  ]
 }
